@@ -1,0 +1,13 @@
+#########################Trivy Installation Commands###############3
+# Install dependencies
+sudo apt-get install wget apt-transport-https gnupg lsb-release 
+
+# Add Trivy's GPG key - fixed the -q0 to -qO
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null 
+
+# Add repository - fixed the missing quote and typo in sources.list.d
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list 
+
+# Update and install
+sudo apt-get update
+sudo apt-get install trivy -y
